@@ -6,4 +6,4 @@ from book_manager.models import Author
 class AuthorSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Author
-        fields = ("name",)
+        fields = ("id", "name")
