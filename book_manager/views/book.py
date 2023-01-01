@@ -1,4 +1,3 @@
-from django.db.utils import IntegrityError
 from rest_framework import status
 from rest_framework.request import Request
 from rest_framework.response import Response
@@ -32,11 +31,6 @@ class BookViewSet(BookManagerMixinViewset):
         except Author.DoesNotExist:
             return Response(
                 data={"author": [f"'{author_name}' is not a valid author, add it first."]},
-                status=status.HTTP_400_BAD_REQUEST,
-            )
-        except IntegrityError:
-            return Response(
-                data={"name": [f"'Book {book_name}' is already registered with same author."]},
                 status=status.HTTP_400_BAD_REQUEST,
             )
         except KeyError:
