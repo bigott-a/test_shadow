@@ -2,36 +2,70 @@ from rest_framework import status
 from rest_framework.request import Request
 from rest_framework.response import Response
 
-from book_manager.models import Author, Book
+from book_manager.models import Author, Book, Kind
 from book_manager.serializers import BookSerializer
 from book_manager_core.serializers import BookManagerMixinViewset
 
 
 class BookViewSet(BookManagerMixinViewset):
-    queryset = Book.objects.all().order_by("name")
+    queryset = Book.objects.all().order_by("title")
     serializer_class = BookSerializer
 
     def create(self, request: Request, *args, **kwargs):
-        if "author" not in request.data:
-            return Response(data={"author": ["This field is required."]}, status=status.HTTP_400_BAD_REQUEST)
-        elif not request.data["author"]:
-            return Response(data={"author": ["This field may not be blank."]}, status=status.HTTP_400_BAD_REQUEST)
-
+        try:
+            book_title = request.data["title"]
+        except KeyError:
+            super().create(request, *args, **kwargs)
         try:
             author_name = request.data["author"]
-            book_name = request.data["name"]
             author = Author.objects.get(name=author_name)
-            book = self.serializer_class.Meta.model.objects.create(name=book_name, author=author)
-            serializer = self.serializer_class(book)
-            return Response(
-                serializer.data,
-                status=status.HTTP_201_CREATED,
-                headers=self.get_success_headers(serializer.data),
-            )
         except Author.DoesNotExist:
-            return Response(
-                data={"author": [f"'{author_name}' is not a valid author, add it first."]},
-                status=status.HTTP_400_BAD_REQUEST,
-            )
+            author = None
         except KeyError:
-            return super().create(request, *args, **kwargs)
+            author = None
+
+        try:
+            kind_name = request.data["kind"]
+            kind = Kind.objects.get(name=kind_name)
+        except Kind.DoesNotExist:
+            kind = None
+        except KeyError:
+            kind = None
+
+        book = self.serializer_class.Meta.model.objects.create(title=book_title, author=author, kind=kind)
+        serializer = self.serializer_class(book)
+        return Response(
+            serializer.data,
+            status=status.HTTP_201_CREATED,
+            headers=self.get_success_headers(serializer.data),
+        )
+
+    def update(self, request: Request, *args, **kwargs):
+        pk, partial = kwargs.get("pk"), kwargs.get("partial", False)
+        book = self.serializer_class.Meta.model.objects.get(pk=pk)
+
+        try:
+            for field in (
+                request.data
+                if partial
+                else map(lambda x: x.verbose_name, self.serializer_class.Meta.model._meta.get_fields())
+            ):
+                if field == "ID":
+                    continue
+                elif field == "author":
+                    res = Author.objects.get(name=request.data[field])
+                elif field == "kind":
+                    res = Kind.objects.get(name=request.data[field])
+                else:
+                    res = request.data[field]
+                setattr(book, field, res)
+        except KeyError:
+            return super().update(request, *args, **kwargs)
+
+        book.save()
+        serializer = self.serializer_class(book)
+        return Response(
+            serializer.data,
+            status=status.HTTP_200_OK,
+            headers=self.get_success_headers(serializer.data),
+        )

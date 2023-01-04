@@ -1,0 +1,156 @@
+[
+    {
+        "model": "book_manager.kind",
+        "pk": 1,
+        "fields": {
+            "name": "Livre adulte"
+        }
+    },
+    {
+        "model": "book_manager.kind",
+        "pk": 2,
+        "fields": {
+            "name": "DVD tous publics"
+        }
+    },
+    {
+        "model": "book_manager.kind",
+        "pk": 3,
+        "fields": {
+            "name": "DVD > 12 ans"
+        }
+    },
+    {
+        "model": "book_manager.kind",
+        "pk": 4,
+        "fields": {
+            "name": "Nouveauté jeunesse"
+        }
+    },
+    {
+        "model": "book_manager.kind",
+        "pk": 5,
+        "fields": {
+            "name": "Bande dessinée jeunesse"
+        }
+    },
+    {
+        "model": "book_manager.kind",
+        "pk": 6,
+        "fields": {
+            "name": "DVD nouveautés tous publics"
+        }
+    },
+    {
+        "model": "book_manager.kind",
+        "pk": 7,
+        "fields": {
+            "name": "CD adulte"
+        }
+    },
+    {
+        "model": "book_manager.kind",
+        "pk": 8,
+        "fields": {
+            "name": "Nouveauté"
+        }
+    },
+    {
+        "model": "book_manager.kind",
+        "pk": 9,
+        "fields": {
+            "name": "Bande dessinée adulte"
+        }
+    },
+    {
+        "model": "book_manager.kind",
+        "pk": 10,
+        "fields": {
+            "name": "DVD jeunesse"
+        }
+    },
+    {
+        "model": "book_manager.kind",
+        "pk": 11,
+        "fields": {
+            "name": "Livre jeunesse"
+        }
+    },
+    {
+        "model": "book_manager.kind",
+        "pk": 12,
+        "fields": {
+            "name": "DVD > 16 ans"
+        }
+    },
+    {
+        "model": "book_manager.kind",
+        "pk": 13,
+        "fields": {
+            "name": "Bande dessinée ado"
+        }
+    },
+    {
+        "model": "book_manager.kind",
+        "pk": 14,
+        "fields": {
+            "name": "Revue adulte"
+        }
+    },
+    {
+        "model": "book_manager.kind",
+        "pk": 15,
+        "fields": {
+            "name": "Non empruntable"
+        }
+    },
+    {
+        "model": "book_manager.kind",
+        "pk": 16,
+        "fields": {
+            "name": "Livre ado"
+        }
+    },
+    {
+        "model": "book_manager.kind",
+        "pk": 17,
+        "fields": {
+            "name": "Nouveauté musique"
+        }
+    },
+    {
+        "model": "book_manager.kind",
+        "pk": 18,
+        "fields": {
+            "name": "Livre sonore adulte"
+        }
+    },
+    {
+        "model": "book_manager.kind",
+        "pk": 19,
+        "fields": {
+            "name": "Livre Fonds spécialisés"
+        }
+    },
+    {
+        "model": "book_manager.kind",
+        "pk": 20,
+        "fields": {
+            "name": "Livre en gros caractères"
+        }
+    },
+    {
+        "model": "book_manager.kind",
+        "pk": 21,
+        "fields": {
+            "name": "Livre en langue étrangère"
+        }
+    },
+    {
+        "model": "book_manager.kind",
+        "pk": 22,
+        "fields": {
+            "name": "Usuels"
+        }
+    }
+]
