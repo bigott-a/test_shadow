@@ -1,10 +1,13 @@
 from rest_framework import status
+from rest_framework.decorators import action
 from rest_framework.request import Request
 from rest_framework.response import Response
 
 from book_manager.models import Author, Book, Kind
 from book_manager.serializers import BookSerializer
 from book_manager_core.serializers import BookManagerMixinViewset
+
+# pylint: disable=missing-function-docstring
 
 
 class BookViewSet(BookManagerMixinViewset):
@@ -68,4 +71,22 @@ class BookViewSet(BookManagerMixinViewset):
             serializer.data,
             status=status.HTTP_200_OK,
             headers=self.get_success_headers(serializer.data),
+        )
+
+    @action(detail=True, methods=["get"])
+    def borrow(self, request, *args, **kwargs):
+        book: Book = self.get_object()
+        res = book.borrow_book()
+        return Response(
+            data={} if res else {"detail": f'Book "{book.title}" is already borrowed'},
+            status=status.HTTP_204_NO_CONTENT if res else status.HTTP_409_CONFLICT,
+        )
+
+    @action(detail=True, methods=["get"], url_path="return")
+    def return_book(self, request, *args, **kwargs):
+        book: Book = self.get_object()
+        res = book.return_book()
+        return Response(
+            data={} if res else {"detail": f"Book '{book.title}' is already returned"},
+            status=status.HTTP_204_NO_CONTENT if res else status.HTTP_409_CONFLICT,
         )
